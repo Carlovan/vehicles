@@ -18,8 +18,13 @@ endif()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
 conan_check(REQUIRED)
+conan_add_remote(NAME bincrafters
+                 URL https://api.bintray.com/conan/bincrafters/public-conan)
 conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}/conanfile.txt
                     BUILD missing)
+
+set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+find_package(sfml)
 
 ##
 ## Executable
@@ -28,4 +33,4 @@ conan_cmake_install(PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}/conanfile.txt
 add_subdirectory(libs)
 
 add_executable(Vehicles main.cpp)
-# target_link_libraries(Vehicles PUBLIC Library)
+target_link_libraries(Vehicles PUBLIC sfml::sfml)
