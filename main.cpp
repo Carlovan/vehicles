@@ -5,19 +5,16 @@
 
 #include <World.hpp>
 #include <Particle.hpp>
+#include <Vehicle.hpp>
 
 const float FPS = 30;
 
 int main() {
 	// create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
-
-	auto blueCircle = std::make_shared<Particle2>(100,100);
-
+	auto vehicle = std::make_shared<Vehicle>(100, 100);
 	World world;
-	world.objects.add(std::make_shared<Particle>(100, 100));
-	world.objects.add(blueCircle);
-	world.add_interaction<ParticlesInteraction>();
+	world.objects.add(vehicle);
 
     // run the program as long as the window is open
     while (window.isOpen())
@@ -29,11 +26,9 @@ int main() {
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
                 window.close();
-			else if(event.type == sf::Event::MouseButtonPressed) {
-				blueCircle->position = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
-			}
         }
 
+		vehicle->velocity = vecmath::i2f(sf::Mouse::getPosition(window)) - vehicle->position;
 		world.perform_interactions();
 
         // clear the window with black color
