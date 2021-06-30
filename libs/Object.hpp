@@ -9,15 +9,20 @@
 #include <ranges>
 #include <optional>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Shape.hpp>
+
+#include <VectorMath.hpp>
 
 class Object {
 public:
-	sf::Vector2f position;
+	vecmath::Vec2 position;
 
-	Object(const float x, const float y) : position{x, y} {}
+	Object(const float x, const float y);
 
-	virtual std::unique_ptr<sf::Shape> getShape() = 0;
+	/* Update the object state; to be called once per frame */
+	virtual void update();
+
+	virtual std::unique_ptr<sf::Shape> getShape() const = 0;
 };
 
 
