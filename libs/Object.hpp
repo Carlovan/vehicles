@@ -48,7 +48,7 @@ public:
 	requires std::is_base_of<value_type::element_type, T>::value
 	bool remove(std::shared_ptr<T> obj) {
 		auto index = std::type_index(typeid(T));
-		if (objects.contains(index))
+		if (!objects.contains(index))
 			return false;
 		if(auto found = std::ranges::find(objects[index], obj); found != objects[index].end()) {
 			std::swap(*found, *objects[index].rbegin());
@@ -60,7 +60,7 @@ public:
 
 	template<class T>
 	requires std::is_base_of<value_type::element_type, T>::value
-	auto byType() {
+	auto byType() const {
 		return byType(std::type_index(typeid(T)));
 	}
 	auto byType(std::type_index index) const {
