@@ -1,2 +1,3 @@
-# add_library(Library library.cpp)
-# target_include_directories(Library INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(VehiclesLib world.cpp)
+target_include_directories(VehiclesLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(VehiclesLib PUBLIC sfml::sfml)

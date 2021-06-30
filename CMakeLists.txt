@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(Vehicles VERSION 0.1)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 ##
@@ -33,4 +33,4 @@ find_package(sfml)
 add_subdirectory(libs)
 
 add_executable(Vehicles main.cpp)
-target_link_libraries(Vehicles PUBLIC sfml::sfml)
+target_link_libraries(Vehicles PUBLIC sfml::sfml VehiclesLib)

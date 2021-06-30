@@ -1,16 +1,22 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include <World.hpp>
+#include <Particle.hpp>
+
+const float FPS = 30;
+
 int main() {
 	// create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 
-	// create a circle
-	sf::CircleShape circle;
-	circle.setRadius(150);
-	circle.setOrigin(circle.getRadius(), circle.getRadius());
-	circle.setOutlineColor(sf::Color::Red);
-	circle.setOutlineThickness(5);
+	auto blueCircle = std::make_shared<Particle2>(200, 100);
+
+	World world;
+	world.objects.add(std::make_shared<Particle>(100, 100));
+	world.objects.add(blueCircle);
+
+	bool added = true;
 
     // run the program as long as the window is open
     while (window.isOpen())
@@ -22,17 +28,26 @@ int main() {
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
                 window.close();
+			else if(event.type == sf::Event::MouseButtonPressed) {
+				if (added)
+					world.objects.remove(blueCircle);
+				else
+					world.objects.add(blueCircle);
+				added = !added;
+			}
         }
 
         // clear the window with black color
         window.clear(sf::Color::Black);
 
         // draw everything here...
-		circle.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition()));
-        window.draw(circle);
+		for (const auto& obj : world.objects) {
+			window.draw(*obj->getShape());
+		}
 
         // end the current frame
         window.display();
+		sf::sleep(sf::seconds(1) / FPS);
 	}
 
 }
